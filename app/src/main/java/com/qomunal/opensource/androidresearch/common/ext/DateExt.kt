@@ -12,6 +12,7 @@ import java.util.TimeZone
 
 
 const val ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+const val DEFAULT_FORMAT = "dd LLLL yyyy"
 const val DATE_TIME_FORMAT = "dd-MM-yyyy HH:mm:ss"
 
 const val DATE_TIME_FORMAT_AM_PM = "dd MMMM yyyy, H.mm a"
@@ -21,6 +22,10 @@ const val SIMPLE_DATE_FORMAT = "dd-MM-yyyy"
 val TIME_ZONE_ID_EXT = TimeZone.getDefault().id
 
 // -------------------------------------------------------------------------------------------------
+
+fun getDateTodayExt(format: String = DATE_TIME_FORMAT): String {
+    return SimpleDateFormat(format, getLocaleExt()).format(Date())
+}
 
 fun String.dateFormater(
     from: String = SIMPLE_DATE_FORMAT,
@@ -87,7 +92,9 @@ fun String.fromIsoDateUTC(format: String = DATE_TIME_FORMAT): String {
 fun String.getMillisExt(format: String = SIMPLE_DATE_FORMAT): Long {
     var date = Date()
     try {
-        date = SimpleDateFormat(format, getLocaleExt()).parse(this) ?: Date()
+        date = SimpleDateFormat(format, getLocaleExt()).apply {
+            timeZone = TimeZone.getTimeZone(TIME_ZONE_ID_EXT)
+        }.parse(this) ?: Date()
     } catch (e: ParseException) {
         e.printStackTrace()
     }
