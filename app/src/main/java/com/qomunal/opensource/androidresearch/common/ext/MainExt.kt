@@ -2,6 +2,7 @@ package com.qomunal.opensource.androidresearch.common.ext
 
 import android.content.Context
 import android.widget.Toast
+import java.util.Locale
 
 /**
  * Created by faisalamircs on 13/01/2024
@@ -14,4 +15,8 @@ import android.widget.Toast
 
 fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun getLocaleExt(): Locale {
+    return Locale.getDefault()
 }
